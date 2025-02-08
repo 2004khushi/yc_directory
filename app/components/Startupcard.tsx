@@ -1,0 +1,68 @@
+import { formatDate } from '@/lib/utils'
+import { EyeIcon } from 'lucide-react'
+import Link from 'next/link'
+import React from 'react'
+import { Button } from './ui/button'
+import Image from 'next/image'
+
+
+const Startupcard = ({post} : {post: StartupTypeCard}) => {
+    //ab dekho niche direct u  r writing _createdAt and all of the object of array rendered directly right? 
+    //but pehle esa nhi tha pehle u had to write like {post.view} or {post?._id} and so on
+    //but now that 9th line code (destructure) has helped up use it directly !!
+    const {_createdAt,_id,views,title,category,image,description,author: {_id:authorId, name}} = post; 
+    //if u r destructuring a sub prop from a prop and if they have same name then u have to change name yaani
+    //author: {_id, name} throws error bcs _id exists bahaar bhi so we renamed it.
+
+  return (
+    <li className='startup-card group'>
+        <div className='flex-between'>
+            <p className='startup-card_date'>
+                {/* {post._createdAt} esa abhi agar waha page.tsx pe aapne createdat pe new date wala fn render kiya hai then yahape ese nhi render kr skte h, iske liye utils.tsx me aapko
+                ek fn banana pdega to do it */}
+                {formatDate(_createdAt)}
+            </p>
+    
+             {/* ab ek new div andar banaayenge for views dikhane ke liye */}
+            <div className='flex items-center gap-1.5'> 
+              <EyeIcon className='size-6 text-primary' />
+              <span className="text-16-medium">{views}</span>
+            </div>
+        </div>
+
+        <div className='flex-between mt-5 gap-5'>
+          {/* ab hum banaayenge do link of name and title y link???? bcs hum chaahte h ki usko jab u press then u shud go to the page dedicated for the names and for the titles! */}
+            <div className='flex-1'>
+                <Link href={`/user/${authorId}`}>
+                <p className='text-16-medium line-clamp-1'>{name}</p>
+                </Link>
+                <Link href={`/startup/${_id}`}>
+                <h3 className='text-26-semibold line-clump-1'>{title}</h3>
+                </Link>
+                
+            </div>
+            <Link href={`/user/${authorId}`}>
+            <Image src="https://placehold.co/48x48" alt="placeholder" width={48} height={48} className='rounded-full' /> 
+            {/* direct agar ye likh doge to error aayegi as Error: Invalid src prop (https://placehold.co/48x48) on `next/image`, hostname "placehold.co" is not configured under images in your `next.config.js` isliye now u need to go to nextconfig to change then come here */}
+            </Link>
+        </div>
+        <Link href={`/startup/${_id}`}>
+        <p className='startup-card_desc'>
+          {description}
+        </p>
+        <img src={image} alt="placeholder" className='startup-card_img' />
+        </Link>
+
+        <div className='flex-between gap-3 mt-5'>
+          <Link href={`/?query=${category.toLowerCase()}`}>
+          <p className='text-16-medium'>{category}</p></Link>
+          <Button className='startup-card_btn' asChild>
+            <Link href={`/startup/${_id}`}> Details </Link>
+          </Button>
+        </div>
+
+    </li>
+  )
+}
+
+export default Startupcard
