@@ -1,0 +1,7 @@
+{
+    "path": "./src/**/*.{ts,tsx,js,jsx}",
+    "schema": "./sanity/extract.json",
+    "generates": "./sanity/types.ts",
+    "_comment": "This configuration will scan the app for all GROQ queries to create types. Additionally, it will also use the extract that we just created by our previous command: 'npx sanity@latest schema extract --path=./sanity/extract.json'. Then, it generates 'types.ts' with other utilities. \nRun: 'npx sanity@latest typegen generate'."
+  }
+  

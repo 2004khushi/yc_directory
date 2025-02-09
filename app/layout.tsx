@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local"
 import { Geist, Geist_Mono } from "next/font/google"; //pehle yahape apan google ke die hue fonts use krre the ab apan khudke krre h-LOCAL!
 import "./globals.css";
+import "easymde/dist/easymde.min.css"; //markdown-plugin also require additional css
 
 const workSans = localFont({src: [
   {
