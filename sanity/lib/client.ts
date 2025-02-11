@@ -6,7 +6,7 @@ export const client = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: false, // Set to false if statically generating pages, using ISR or tag-based revalidation
+  useCdn: true, // Set to false if statically generating pages, using ISR or tag-based revalidation
   //dekho isme hota kya haina ki isko smjhne ke liye i m providing a picture in reference section ,
   //baaki to explain it, so kya hota h ki if u set useCdn to TRUE, to pehle apan uncached req krte h obv, to vo jata hai cached memory me check krne agar udhr miljata to vhi return
   //vrna main data me jaake laata,

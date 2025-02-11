@@ -5,12 +5,16 @@ import Image from "next/image";
 import { STARTUPS_QUERY } from "../../sanity/lib/queries";
 
 import { sanityFetch, SanityLive } from "../../sanity/lib/live";
+import { auth } from "@/auth";
 
 export default async function Home({searchParams} : {searchParams: Promise <{query?: string}>}) 
 {
    const query = (await searchParams).query;
    const params = {search:query || null};
 
+   const session = await auth(); //extraction of session and from that get sanity id of the author for that user 
+   console.log(session?.id);
+   
   //  const posts = [{
   //   // _createdAt: 'Yesterday', --> static tha ye to
   //   _createdAt: new Date(),

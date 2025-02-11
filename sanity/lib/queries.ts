@@ -22,3 +22,39 @@ export const STARTUPS_QUERY =
   category,
   image,
 }`);
+
+
+
+//ye wala apan krre h ki jab aap koi bhi name ya card ke jo aapne components banaaye the yaad h sab link ke the??? to unhe redirect krna pdega right ek page pe startup/id krke kiya tha apan ne
+//usi ke liye ye use krenge to abhi un links me se sirf id pe agar click kroge to vo redirected page pe kya dikhega vo is query me aajayega sab and ye show krenge apan fir
+export const STARTUP_BY_ID_QUERY =
+  defineQuery(`*[_type == "startup" && _id == $id][0]{
+  _id, 
+  title, 
+  slug,
+  _createdAt,
+  author -> {
+    _id, name, username, image, bio
+  }, 
+  views,
+  description,
+  category,
+  image,
+  pitch,
+}`);
+
+//ab apan nikaalenge query kiski ??? views ke liye according to their ids
+export const STARTUP_VIEWS_QUERY = defineQuery(`*[_type == "startup" && _id == $id][0]{
+    _id,views,
+}`);
+
+//now what we want is ki jesehi banda signin kre vese hi, uska ese author me naam chala jaaye and baaki jo bhi me andar define krri vo sab
+export const AUTHOR_BY_GITHUB_ID_QUERY = defineQuery(`[_type == "author" && _id == $id][0]{
+    _id,
+    id,
+    name,
+    username,
+    email,
+    image,
+    bio
+    }`);
