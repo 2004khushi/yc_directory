@@ -7,9 +7,9 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors:true,
   },
   eslint:{
-    ignoreDuringBuilds:true,
+    ignoreDuringBuilds:true, //ye dono isliye likhe bcs ye deploy me problem krre the so needed to ignore
   },
-  //ye dono isliye likhe bcs ye deploy me problem krre the so needed to ignore
+  
 
   images: {
     dangerouslyAllowSVG: true, //abhi to kya hai apan svg daalre the placeholder site wala to isliye next js ki security wasn't allowing it, baadme to khi or se aayega jo svg me nhi hoga to tab ye line daalne ki jrurat nhi pdegi
