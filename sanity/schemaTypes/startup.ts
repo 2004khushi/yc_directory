@@ -1,6 +1,4 @@
-import { UserIcon } from "lucide-react";
-import { Rule } from "postcss";
-import { title } from "process";
+
 import { defineField, defineType } from "sanity";
 
 export const startup= defineType({

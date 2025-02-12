@@ -3,9 +3,13 @@ import React from 'react'
 import Image from 'next/image'
 import { auth, signOut, signIn } from "@/auth";
 import { redirect } from 'next/dist/server/api-utils'
+import { BadgePlus, LogOut } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 
 const Navbar = async() => {
     const session = await auth(); //now wait till auth ka jo bhi async kaam h vo hojae then usko session me daaldena
+    console.log("pilu");
+    
     console.log(session);
   return (
     <header className='px-5 py-3 bg-white shadow-xl font-work-sans'>
@@ -21,7 +25,8 @@ const Navbar = async() => {
                 {session && session?.user ? (
                     <>
                     <Link href="/startup/create">
-                       <span> Create </span>
+                       <span className='max-sm:hidden'> Create </span>
+                       <BadgePlus className='size-6 sm:hidden' />
                     </Link>
 
                     {/* 
@@ -38,15 +43,23 @@ const Navbar = async() => {
                         "use server";
                         await signOut({redirectTo: "/"});
                     }}>
-                        <button type='submit'>Logout</button> 
+                        <button type='submit'> <span className='max-sm:hidden'> Logout </span>
+                        <LogOut className='size-6 sm:hidden text-red-500'></LogOut>
+                        </button> 
                         {/* now if u press logout then u r redirected to home page where only login option is there */}
-
+                         
                     </form>
 
                     {/* ab naam bhi to dikhaaogena user ka side me so -> */}
-                    <Link href={`/user/${session?.user?.id}`}>
-                       <span>{session?.user?.name}</span>
-                    </Link>
+                    <div> 
+                     <Avatar className="size-10">
+                     <AvatarImage
+                      src={session?.user?.image || ""}
+                      alt={session?.user?.name || ""}
+                     />
+                     <AvatarFallback>AV</AvatarFallback>
+                     </Avatar>
+                    </div>
 
 
                     </>

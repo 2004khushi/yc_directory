@@ -1,7 +1,8 @@
 import { type SchemaTypeDefinition } from 'sanity'
 import { author } from './author'
 import { startup } from './startup'
+import { playlist } from './playlist'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [author, startup], //to structure it go to structure.ts
+  types: [author, startup, playlist], //to structure it go to structure.ts
 }

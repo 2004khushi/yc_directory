@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react'
 import { client } from '../../../../sanity/lib/client';
-import { STARTUP_BY_ID_QUERY } from '../../../../sanity/lib/queries';
+import { PLAYLIST_BY_SLUG_QUERY, STARTUP_BY_ID_QUERY } from '../../../../sanity/lib/queries';
 import { notFound } from 'next/navigation';
 import { formatDate } from '@/lib/utils';
 import markdownit from 'markdown-it';
@@ -11,6 +11,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Skeleton } from '@/components/ui/skeleton';
 import Dekho from '@/components/Dekho';
+import Startupcard, { StartupTypeCard } from '@/components/Startupcard';
 //here we will be implementing PARTIAL PRERENDERING(PPR) so as uk it's a one of the coolest feature of nextjs
 //so to make it work pehle apan ko next.config me jaake kuch setting krke aani pdegi then usko idhar export krenge!
 
@@ -19,7 +20,21 @@ export const experimental_ppr = true;
 
 const page = async ({params}: { params: Promise<{id:string}>}) => {
     const id= (await params).id;
-    const post = await client.fetch(STARTUP_BY_ID_QUERY,{id}); //now we her eused sanity's client api to perfroem incremental static regenration to get startup details.
+
+    //abhi isme kya hora h ki sequential chlra h ki pehle startup_by_id_query then playlist wala fetch hoga but we want parallely ho to vo krne ke liye we will use "PROMISE.ALL"
+    //acha ab || krne se ye faaida h ki dono query mese jis bhi query ko fetch krne me jyada time lgta h vhi total time hota h ab
+    //naaki dono ka time add krke jo hota h vo (voto sequential me hogana). hence load times faster
+    // const post = await client.fetch(STARTUP_BY_ID_QUERY,{id}); //now we her eused sanity's client api to perfroem incremental static regenration to get startup details.
+    
+    // const {select: editorPosts} = await client.fetch(PLAYLIST_BY_SLUG_QUERY, {slug: 'editor-picks'})
+
+    const [post, {select: editorPosts}] = await Promise.all([
+      client.fetch(STARTUP_BY_ID_QUERY,{id}),
+      client.fetch(PLAYLIST_BY_SLUG_QUERY, 
+        {slug: 'editor-picks'}
+      ),
+    ]);
+    
 
     if(!post) return notFound();
 
@@ -33,7 +48,7 @@ const page = async ({params}: { params: Promise<{id:string}>}) => {
         <p className='sub-heading !max-w-5xl'>{post.description}</p>
     </section>
     <section className='section_container'>
-       <img src={post.image} alt='thumbnail' className='w-full h-auto rounded-xl'></img>
+       <img src={post?.image} alt='thumbnail' className='w-full h-auto rounded-xl'></img>
 
        <div className='space-y-5 mt-10 max-w-4xl mx-auto'>
         <div className='flex-between gap-5'>
@@ -60,6 +75,19 @@ const page = async ({params}: { params: Promise<{id:string}>}) => {
        </div>
 
        <hr className='divider'></hr>
+
+       {editorPosts?.length > 0 && (
+          <div className="max-w-4xl mx-auto">
+            <p className="text-30-semibold">Editor Picks</p>
+
+            <ul className="mt-7 card_grid-sm">
+              {editorPosts.map((post: StartupTypeCard, i: number) => (
+                <Startupcard key={i} post={post} />
+                
+              ))}
+            </ul>
+          </div>
+        )}
       
       {/* abhi tak apan ne banaya h sirf static part of the page ab isme hum daalenge ek dynamic component now u need to rmmbr that to put a dynamic component in the page /ppr/
       u need to wrap things up in SUSPENSE */}

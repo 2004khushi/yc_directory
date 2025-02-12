@@ -9,7 +9,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   //after successful authentication of next auth.js these below down will be executed viz., user ka naam vgera sab aajayega
   callbacks:{
     //signin was made to check if taht user exists already in db or not and if not then create it
-    async signIn ({user:{name,email,image},profile:{id,login,bio},}) {
+    async signIn ({user:{name,email,image},profile:{id,login,bio} }) {
       const existingUser = await client.
       withConfig({useCdn:false})
       .fetch(AUTHOR_BY_GITHUB_ID_QUERY,{
@@ -49,7 +49,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async session({session,token}){
       Object.assign(session,{id:token.id}); //we needed to pass the profile id from token to session
       return session;
-    }
+    },
 
-  }
-})
+  },
+});

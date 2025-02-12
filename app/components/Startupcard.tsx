@@ -1,10 +1,11 @@
-import { formatDate } from '@/lib/utils'
+import { cn,formatDate } from '@/lib/utils'
 import { EyeIcon } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import { Button } from './ui/button'
 import Image from 'next/image'
 import { Startup,Author } from '../../sanity/types'
+import { Skeleton } from './ui/skeleton'
 
 
 export type StartupTypeCard = Omit<Startup,"author"> & {author? : Author}
@@ -46,7 +47,7 @@ const Startupcard = ({post} : {post: StartupTypeCard}) => {
                 
             </div>
             <Link href={`/user/${author?._id }`}>
-            <Image src="https://placehold.co/48x48" alt="placeholder" width={48} height={48} className='rounded-full' /> 
+            <Image src={author?.image || "/download.jpeg"} alt={author?.name || "Unknown Author"} width={48} height={48} className='rounded-full' /> 
             {/* direct agar ye likh doge to error aayegi as Error: Invalid src prop (https://placehold.co/48x48) on `next/image`, hostname "placehold.co" is not configured under images in your `next.config.js` isliye now u need to go to nextconfig to change then come here */}
             </Link>
         </div>
@@ -54,7 +55,7 @@ const Startupcard = ({post} : {post: StartupTypeCard}) => {
         <p className='startup-card_desc'>
           {description}
         </p>
-        <img src={image} alt="placeholder" className='startup-card_img' />
+        <img src={post?.image} alt="placeholder" className='startup-card_img' />
         </Link>
 
         <div className='flex-between gap-3 mt-5'>
@@ -67,7 +68,19 @@ const Startupcard = ({post} : {post: StartupTypeCard}) => {
         </div>
 
     </li>
-  )
-}
+  );
+};
+
+//YE NICHE WALA BASICALLY TABKE LIYE H KI UK VO KESE PINTEREST YA INSTA PE AATA H EK KHAALI SA BOARD LOAD HOTE HUE jab tumhara net slow hota h in pace of content
+//to humlog yahi krna chaahre h ki jab apan author pe click krenge tab author ka jo khudka banaya hua startup ka card aayega to loading me vo kuch esa hi dikhe isliye ise fir page.tsx of user me render kiya h
+export const StartupcardSkeleton = () => (
+  <>
+  {[0,1,2,3,4].map((index: number) => (
+    <li key={cn('skeleton',index)}>
+      <Skeleton  className='startup-card_skeleton'  />
+    </li>
+  ))}
+  </>
+)
 
 export default Startupcard
