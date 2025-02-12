@@ -13,3 +13,9 @@ export function formatDate(date:string) {
     year: 'numeric',
   })
 }
+
+
+//ye humne isliye banaya h ki bhaiya baar baar JSON.parse(JSON.stringify(response)) esa naa likhna pade
+export function parseServerActionResponse<T>(response: T){
+  return JSON.parse(JSON.stringify(response));
+}

@@ -10,6 +10,7 @@ import { z } from 'zod';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import { Result } from 'postcss';
+import { createPitch } from '@/lib/action';
 
 
 const StartupForm = () => {
@@ -31,16 +32,16 @@ const StartupForm = () => {
             //form values leliya ab usko validate krwaale?
             await formSchema.parseAsync(formValues); //we will take the formvalues and will match with formschema if tehy match
 
-            // const result = await createIdea(prevState,formData,pitch);
-        //    if(result.status == 'SUCCESS'){
-        //     toast({
-        //         title:"SUCCESS",
-        //         description:"Yur startup pitch has been created successfully",
-        //     });
-        //     router.push(`/startup/${result.id}`)
-        //    }
-           //return result;
+            const result = await createPitch (prevState,formData,pitch);
 
+         if(result.status == 'SUCCESS'){
+            toast({
+                title:"SUCCESS",
+                description:"Yur startup pitch has been created successfully",
+            });
+            router.push(`/startup/${result._id}`)
+           }
+           return result;
         } catch (error) {
             if (error instanceof z.ZodError){
                 const fieldErrors = error.flatten().fieldErrors; 

@@ -1,8 +1,8 @@
 import { z } from "zod";
 export const formSchema = z.object({
     title: z.string().min(3).max(50), //min 3 char daalne pdenge and 50 char in total is min req thing otherwise not valid for title
-    description: z.string().min(10).max(180),
-    category: z.string().min(3).max(20),
+    description: z.string(),
+    category: z.string(),
     link: z.string().url().refine(async (url)=>{
         try{
           const res = await fetch(url, {method:"HEAD"}); //fetch kro url jo user input dega and uska bas header lo
