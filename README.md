@@ -72,3 +72,10 @@ Well it optimizes our performance and simplifies evtg for us.
 
 -- Client side rednering ki log normal hi aati h and ye tab use krte h jidh aapka page interactivity need krta h like clicks and navigation(clicking url ) and USESTATE/USEEFFECTS and all bcs server side components/rendering me isko kam krne ke liye hi use kiya jata h as vo sab already db ke paas hi render hote h to ye 2 types ke hook ki jrurat hi nhi pdti
    -- -- BUT BUT iske log temrinal pe bhi aate h bcs PRE RENDERING OF client component bhi hoti h to make STATIC PAGE OF IT ; which at server side gets LIVE (hydrated there); placeholder chod deta h next.js jahabhi interactivity cahhiye page me and jo bhi static part h page ka use pehle hi server pe hi bhr deta h taaki optimization jyada ho jaye and js km bhejna pde and all benefits of server side rendieinrg [PPR]
+-- BUT BUT kai baar onclick waale chije jo aap form ke liye use krte ho like sign-in and sign-out use agar SSR hi rkhna h to
+next.js ka form feature use kro to usme async fn se u can use signin and signout bcs YE DO ASYNC FN h and inside on-click u cant use async until it's in server side but onclick ke liye use client chhaiye so form feature use kro usme anadar vaapis declare ko use server and then async sign-in fn use krskte ho -> see NAVBAR.TSX for example
+
+
+
+
+## PROBLEM FACED -> CDN ISSUE (3.44)
